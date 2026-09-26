@@ -6,6 +6,7 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
 {
     private ProductoEntity(string id) : base(id)
     {
+        Id = id;
         DataProps = [
             new() { Nombre = nameof(Nombre) },
             new() { Nombre = nameof(Descripcion) },
@@ -28,9 +29,6 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
 
     public static ProductoEntity MapearDesdeBD(ProductoRecord record)
     {
-        var fechaCreacion = Convert.ToDateTime(
-           record.FechaCreacion);
-
         var entidad = new ProductoEntity(record.Id)
         {
             ExisteEnBD = true,
@@ -38,7 +36,7 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
             Descripcion = record.Descripcion,
             Precio = record.Precio,
             StockInicial = record.StockInicial,
-            FechaCreacion = fechaCreacion
+            FechaCreacion = record.FechaCreacion
         };
 
         entidad.Respaldar();
@@ -46,12 +44,13 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
         return entidad;
     }
 
-    public static ProductoEntity NoExisteEnBD(string id)
+    public static ProductoEntity NoExisteEnBD()
     {
+        string id = Guid.NewGuid().ToString();
+
         var entidad = new ProductoEntity(id)
         {
-            ExisteEnBD = false,
-            Id = id
+            ExisteEnBD = false
         };
 
         entidad.Respaldar();

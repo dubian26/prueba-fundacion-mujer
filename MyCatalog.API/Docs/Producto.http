@@ -1,17 +1,16 @@
-@BaseAddress = https://localhost:7089
+
+## Con Docker: http://localhost:8080
+## Con .NET Debug: https://localhost:7089
+@BaseAddress = http://localhost:8080
 
 ###
 
-POST {{BaseAddress}}/v1/productos/buscar-por-id
+GET {{BaseAddress}}/v1/products/11111111-1111-1111-1111-111111111111
 Accept: application/json
-Content-Type: application/json
-{
-   "id": "123"
-}
 
 ###
 
-POST {{BaseAddress}}/v1/productos/crear
+POST {{BaseAddress}}/v1/products
 Accept: application/json
 Content-Type: application/json
 

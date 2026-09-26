@@ -1,12 +1,20 @@
 using MyCatalog.API.Configuration;
 using MyCatalog.API.EndPoints;
+using Microsoft.EntityFrameworkCore;
+using MyCatalog.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-builder.Services.AgregarDependencias();
+builder.Services.AgregarDependencias(builder.Configuration);
 
 var app = builder.Build();
+
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<MyCatalogDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,4 +26,4 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorMiddleware>();
 app.MapProductoEndPoints();
 
-app.Run();
+await app.RunAsync();

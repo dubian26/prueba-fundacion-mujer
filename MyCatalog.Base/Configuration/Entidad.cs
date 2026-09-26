@@ -10,8 +10,8 @@ public abstract class Entidad<T>(string id) : Clonable where T : Entidad<T>
 {
    public T EntidadEnBD { get; set; } = default!;
    public bool ExisteEnBD { get; set; } = false;
-   public DateTime FechaCreacion { get; set; } = DateTime.Now;
-   public DateTime FechaModifica { get; set; } = DateTime.Now;
+   public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+   public DateTime FechaModifica { get; set; } = DateTime.UtcNow;
    public IEnumerable<Item> Permisos { get; set; } = [];
    public IEnumerable<DataProp> DataProps { get; set; } = [];
 

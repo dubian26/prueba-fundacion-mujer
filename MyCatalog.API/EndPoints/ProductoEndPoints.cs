@@ -7,15 +7,15 @@ public static class ProductoEndPoints
 {
     public static void MapProductoEndPoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/v1/productos/buscar-por-id", async (
-           ProductoPorIdQuery request, ISender sender,
+        app.MapGet("/v1/products/{id}", async (
+            string id, ISender sender,
            CancellationToken cancellationToken) =>
         {
-            ArgumentNullException.ThrowIfNull(request);
+            ProductoPorIdQuery request = new() { Id = id };
             return await sender.Send(request, cancellationToken);
         });
 
-        app.MapPost("/v1/productos/crear", async (
+        app.MapPost("/v1/products", async (
            ProductoNuevoCommand request, ISender sender,
            CancellationToken cancellationToken) =>
         {

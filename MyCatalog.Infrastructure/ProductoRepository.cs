@@ -1,17 +1,40 @@
-﻿using MyCatalog.Domain.Producto;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCatalog.Domain.Producto;
+using MyCatalog.Infrastructure.Persistence;
 
 namespace MyCatalog.Infrastructure;
 
-public class ProductoRepository : IProductoRepository
+public sealed class ProductoRepository(
+    MyCatalogDbContext context) : IProductoRepository
 {
-    public Task<ProductoEntity> BuscarPorId(string id, CancellationToken cancellationToken)
+    public async Task<ProductoEntity> BuscarPorId(
+        string id,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var record = await context.Productos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                producto => producto.Id == id,
+                cancellationToken);
+
+        return record is null
+            ? ProductoEntity.NoExisteEnBD()
+            : ProductoEntity.MapearDesdeBD(record);
     }
 
-    public Task<ProductoEntity> BuscarPorNombre(string nombre, CancellationToken cancellationToken)
+    public async Task<ProductoEntity> BuscarPorNombre(
+        string nombre,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var record = await context.Productos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                producto => producto.Nombre == nombre,
+                cancellationToken);
+
+        return record is null
+            ? ProductoEntity.NoExisteEnBD()
+            : ProductoEntity.MapearDesdeBD(record);
     }
 
     public Task Actualizar(ProductoEntity producto, CancellationToken cancellationToken)
@@ -19,8 +42,20 @@ public class ProductoRepository : IProductoRepository
         throw new NotImplementedException();
     }
 
-    public Task Insertar(ProductoEntity producto, CancellationToken cancellationToken)
+    public async Task Insertar(
+        ProductoEntity producto,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var record = new ProductoRecord
+        {
+            Id = producto.Id,
+            Nombre = producto.Nombre,
+            Descripcion = producto.Descripcion,
+            Precio = producto.Precio,
+            StockInicial = producto.StockInicial,
+            FechaCreacion = producto.FechaCreacion
+        };
+
+        await context.Productos.AddAsync(record, cancellationToken);
     }
 }

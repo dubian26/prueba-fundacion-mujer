@@ -32,6 +32,8 @@ internal class ProductoNuevoHandler(IUnitOfWork unitOfWork) :
         await unitOfWork.Producto.Insertar(
            producto, cancellationToken);
 
+        unitOfWork.Commit();
+
         return new IdResult
         {
             Id = producto.Id,

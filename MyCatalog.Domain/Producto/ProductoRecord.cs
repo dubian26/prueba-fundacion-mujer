@@ -7,5 +7,5 @@ public record ProductoRecord
     public string Descripcion { get; set; } = string.Empty;
     public int Precio { get; set; }
     public int StockInicial { get; set; }
-    public string FechaCreacion { get; set; } = string.Empty;
+    public DateTime FechaCreacion { get; set; }
 }
