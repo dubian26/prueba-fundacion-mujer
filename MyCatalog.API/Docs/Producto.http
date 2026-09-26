@@ -1,0 +1,22 @@
+@BaseAddress = https://localhost:7089
+
+###
+
+POST {{BaseAddress}}/v1/productos/buscar-por-id
+Accept: application/json
+Content-Type: application/json
+{
+   "id": "123"
+}
+
+###
+
+POST {{BaseAddress}}/v1/productos/crear
+Accept: application/json
+Content-Type: application/json
+
+{
+   "nombre": "Producto 1",
+   "descripcion": "Descripción del producto 1",
+   "precio": 100.00
+}
