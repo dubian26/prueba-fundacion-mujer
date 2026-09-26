@@ -27,7 +27,7 @@ internal class ProductoNuevoHandler(IUnitOfWork unitOfWork) :
         producto.Nombre = request.Nombre;
         producto.Descripcion = request.Descripcion;
         producto.Precio = request.Precio;
-        producto.StockInicial = request.StockInicial;
+        producto.Stock = request.StockInicial;
 
         await unitOfWork.Producto.Insertar(
            producto, cancellationToken);

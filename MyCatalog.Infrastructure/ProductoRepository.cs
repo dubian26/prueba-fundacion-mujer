@@ -37,9 +37,21 @@ public sealed class ProductoRepository(
             : ProductoEntity.MapearDesdeBD(record);
     }
 
-    public Task Actualizar(ProductoEntity producto, CancellationToken cancellationToken)
+    public async Task Actualizar(
+        ProductoEntity producto,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var record = await context.Productos
+            .FirstOrDefaultAsync(
+                p => p.Id == producto.Id,
+                cancellationToken) ??
+                throw new Exception("El producto no existe.");
+
+        record.Nombre = producto.Nombre;
+        record.Descripcion = producto.Descripcion;
+        record.Precio = producto.Precio;
+        record.Stock = producto.Stock;
+        record.FechaModifica = DateTime.UtcNow;
     }
 
     public async Task Insertar(
@@ -52,8 +64,9 @@ public sealed class ProductoRepository(
             Nombre = producto.Nombre,
             Descripcion = producto.Descripcion,
             Precio = producto.Precio,
-            StockInicial = producto.StockInicial,
-            FechaCreacion = producto.FechaCreacion
+            Stock = producto.Stock,
+            FechaCreacion = producto.FechaCreacion,
+            FechaModifica = producto.FechaModifica
         };
 
         await context.Productos.AddAsync(record, cancellationToken);

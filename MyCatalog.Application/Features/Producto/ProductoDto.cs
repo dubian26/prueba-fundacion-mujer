@@ -8,7 +8,7 @@ public record ProductoDto
     public string Nombre { get; set; } = string.Empty;
     public string Descripcion { get; set; } = string.Empty;
     public int Precio { get; set; }
-    public int StockInicial { get; set; }
+    public int Stock { get; set; }
     public string FechaCreacion { get; set; } = string.Empty;
 
     public static ProductoDto MapearDesde(ProductoEntity producto)
@@ -21,8 +21,8 @@ public record ProductoDto
             Nombre = producto.Nombre,
             Descripcion = producto.Descripcion,
             Precio = producto.Precio,
-            StockInicial = producto.StockInicial,
-            FechaCreacion = producto.FechaCreacion.ToString("yyyy-MM-dd HH:mm:ss")
+            Stock = producto.Stock,
+            FechaCreacion = producto.FechaCreacion.ToString("s")
         };
     }
 }

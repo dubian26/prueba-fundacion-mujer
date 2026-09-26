@@ -21,6 +21,9 @@ public sealed class MyCatalogDbContext(DbContextOptions<MyCatalogDbContext> opti
         producto.Property(record => record.Descripcion).IsRequired();
         producto.Property(record => record.FechaCreacion)
             .HasColumnType("timestamp with time zone");
+        producto.Property(record => record.FechaModifica)
+            .HasColumnType("timestamp with time zone")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         producto.HasData(new ProductoRecord
         {
@@ -28,8 +31,9 @@ public sealed class MyCatalogDbContext(DbContextOptions<MyCatalogDbContext> opti
             Nombre = "Producto de prueba",
             Descripcion = "Registro inicial para validar la búsqueda por ID.",
             Precio = 1000,
-            StockInicial = 10,
-            FechaCreacion = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            Stock = 10,
+            FechaCreacion = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            FechaModifica = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
         });
     }
 }

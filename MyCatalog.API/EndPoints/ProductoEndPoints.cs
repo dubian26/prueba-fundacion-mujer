@@ -9,15 +9,26 @@ public static class ProductoEndPoints
     {
         app.MapGet("/v1/products/{id}", async (
             string id, ISender sender,
-           CancellationToken cancellationToken) =>
+            CancellationToken cancellationToken) =>
         {
             ProductoPorIdQuery request = new() { Id = id };
             return await sender.Send(request, cancellationToken);
         });
 
+        app.MapPatch("/v1/products/{id}/stock", async (
+            string id,
+            ProductoActualizarStockCommand command,
+            ISender sender,
+            CancellationToken cancellationToken) =>
+        {
+            return await sender.Send(
+                command with { Id = id },
+                cancellationToken);
+        });
+
         app.MapPost("/v1/products", async (
-           ProductoNuevoCommand request, ISender sender,
-           CancellationToken cancellationToken) =>
+            ProductoNuevoCommand request, ISender sender,
+            CancellationToken cancellationToken) =>
         {
             ArgumentNullException.ThrowIfNull(request);
             return await sender.Send(request, cancellationToken);

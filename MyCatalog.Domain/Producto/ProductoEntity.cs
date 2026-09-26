@@ -11,7 +11,7 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
             new() { Nombre = nameof(Nombre) },
             new() { Nombre = nameof(Descripcion) },
             new() { Nombre = nameof(Precio) },
-            new() { Nombre = nameof(StockInicial) }
+            new() { Nombre = nameof(Stock) }
         ];
     }
 
@@ -21,7 +21,17 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
     public string Nombre { get; set; } = string.Empty;
     public string Descripcion { get; set; } = string.Empty;
     public int Precio { get; set; }
-    public int StockInicial { get; set; }
+    public int Stock { get; set; }
+
+    #endregion
+
+    #region ValidarQue
+
+    public void ValidarQueStockNoSeaNegativo()
+    {
+        if (Stock < 0)
+            throw ProductoError.StockNoPuedeSerNegativo();
+    }
 
     #endregion
 
@@ -35,8 +45,9 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
             Nombre = record.Nombre,
             Descripcion = record.Descripcion,
             Precio = record.Precio,
-            StockInicial = record.StockInicial,
-            FechaCreacion = record.FechaCreacion
+            Stock = record.Stock,
+            FechaCreacion = record.FechaCreacion,
+            FechaModifica = record.FechaModifica
         };
 
         entidad.Respaldar();
@@ -46,7 +57,7 @@ public sealed class ProductoEntity : Entidad<ProductoEntity>
 
     public static ProductoEntity NoExisteEnBD()
     {
-        string id = Guid.NewGuid().ToString();
+        string id = Guid.CreateVersion7().ToString();
 
         var entidad = new ProductoEntity(id)
         {
