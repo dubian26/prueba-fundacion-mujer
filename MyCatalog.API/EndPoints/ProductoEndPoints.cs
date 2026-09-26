@@ -13,18 +13,23 @@ public static class ProductoEndPoints
         {
             ProductoPorIdQuery request = new() { Id = id };
             return await sender.Send(request, cancellationToken);
-        });
+        })
+        .WithName("ObtenerProductoPorId")
+        .WithTags("Productos")
+        .WithSummary("Consulta un producto por su identificador")
+        .WithDescription("Devuelve el resultado de la búsqueda del producto indicado.");
 
-        app.MapPatch("/v1/products/{id}/stock", async (
-            string id,
+        app.MapPatch("/v1/products/actualizar-stock", async (
             ProductoActualizarStockCommand command,
             ISender sender,
             CancellationToken cancellationToken) =>
         {
-            return await sender.Send(
-                command with { Id = id },
-                cancellationToken);
-        });
+            return await sender.Send(command, cancellationToken);
+        })
+        .WithName("ActualizarStockProducto")
+        .WithTags("Productos")
+        .WithSummary("Actualiza el stock de un producto")
+        .WithDescription("El ID del producto y la cantidad se envían en el body. Una cantidad positiva suma unidades y una negativa las descuenta; el stock no puede quedar por debajo de cero.");
 
         app.MapPost("/v1/products", async (
             ProductoNuevoCommand request, ISender sender,
@@ -32,6 +37,10 @@ public static class ProductoEndPoints
         {
             ArgumentNullException.ThrowIfNull(request);
             return await sender.Send(request, cancellationToken);
-        });
+        })
+        .WithName("CrearProducto")
+        .WithTags("Productos")
+        .WithSummary("Crea un producto")
+        .WithDescription("Registra un producto con su nombre, descripción, precio y stock inicial.");
     }
 }

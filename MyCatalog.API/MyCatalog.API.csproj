@@ -8,12 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-	<ProjectReference Include="..\MyCatalog.Application\MyCatalog.Application.csproj" />
-	<ProjectReference Include="..\MyCatalog.Infrastructure\MyCatalog.Infrastructure.csproj" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <ProjectReference Include="..\MyCatalog.Application\MyCatalog.Application.csproj" />
+    <ProjectReference Include="..\MyCatalog.Infrastructure\MyCatalog.Infrastructure.csproj" />
 </ItemGroup>
 
 </Project>

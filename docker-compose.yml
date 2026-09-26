@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__MyCatalog: Host=postgres;Port=5432;Database=mycatalog;Username=mycatalog;Password=mycatalog_dev_password;GSS Encryption Mode=Disable
     ports:
       - "8080:8080"
@@ -26,7 +26,7 @@ services:
     volumes:
       - mycatalog-postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mycatalog -d mycatalog"]
+      test: [ "CMD-SHELL", "pg_isready -U mycatalog -d mycatalog" ]
       interval: 5s
       timeout: 5s
       retries: 10

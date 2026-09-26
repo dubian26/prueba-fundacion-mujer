@@ -41,9 +41,9 @@ curl http://localhost:8080/v1/products/11111111-1111-1111-1111-111111111111
 Ajustar el stock: una `cantidad` positiva suma unidades y una negativa las resta. El stock no puede quedar negativo y cada ajuste se limita a 1.000.000 de unidades.
 
 ```bash
-curl -X PATCH http://localhost:8080/v1/products/11111111-1111-1111-1111-111111111111/stock \
+curl -X PATCH http://localhost:8080/v1/products/actualizar-stock \
   -H "Content-Type: application/json" \
-  -d '{"cantidad":2}'
+  -d '{"id":"11111111-1111-1111-1111-111111111111","cantidad":2}'
 ```
 
 Crear un producto:
