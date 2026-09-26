@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCatalog.Base.Models;
 using MyCatalog.Domain.Producto;
 using MyCatalog.Infrastructure.Persistence;
 
@@ -36,6 +37,33 @@ public sealed class ProductoRepository(
             ? ProductoEntity.NoExisteEnBD()
             : ProductoEntity.MapearDesdeBD(record);
     }
+
+    public async Task<IEnumerable<ProductoEntity>> Listar(
+        SearchParams searchParams,
+        CancellationToken cancellationToken)
+    {
+        var query = context.Productos.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(searchParams.Search))
+        {
+            var search = $"%{searchParams.Search.Trim()}%";
+            query = query.Where(producto =>
+                EF.Functions.ILike(producto.Nombre, search) ||
+                EF.Functions.ILike(producto.Descripcion, search));
+        }
+
+        var records = await query
+            .OrderBy(producto => producto.Nombre)
+            .ThenBy(producto => producto.Id)
+            .Skip(searchParams.Skip)
+            .Take(searchParams.Take)
+            .ToListAsync(cancellationToken);
+
+        return [.. records.Select(ProductoEntity.MapearDesdeBD)];
+    }
+
+    public Task<int> TotalReg(CancellationToken cancellationToken) =>
+        context.Productos.CountAsync(cancellationToken);
 
     public async Task Actualizar(
         ProductoEntity producto,

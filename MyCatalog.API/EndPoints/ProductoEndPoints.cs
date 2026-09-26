@@ -19,6 +19,27 @@ public static class ProductoEndPoints
         .WithSummary("Consulta un producto por su identificador")
         .WithDescription("Devuelve el resultado de la búsqueda del producto indicado.");
 
+        app.MapGet("/v1/products", async (
+            int skip,
+            int take,
+            string? search,
+            ISender sender,
+            CancellationToken cancellationToken) =>
+        {
+            ProductoListarQuery request = new()
+            {
+                Skip = skip,
+                Take = take,
+                Search = search
+            };
+
+            return await sender.Send(request, cancellationToken);
+        })
+        .WithName("ListarProductos")
+        .WithTags("Productos")
+        .WithSummary("Lista productos con paginación y búsqueda")
+        .WithDescription("skip indica cuántos productos omitir y take cuántos devolver. search, si se proporciona, busca sin distinguir mayúsculas en el nombre y la descripción. TotalReg informa el total de coincidencias antes de paginar.");
+
         app.MapPatch("/v1/products/actualizar-stock", async (
             ProductoActualizarStockCommand command,
             ISender sender,

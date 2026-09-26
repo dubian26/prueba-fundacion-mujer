@@ -32,10 +32,18 @@ La API queda disponible en `http://localhost:8080`. Al iniciar, aplica las migra
 11111111-1111-1111-1111-111111111111
 ```
 
+Para explorar y probar los endpoints desde Swagger UI, abrir `http://localhost:8080/swagger`. Swagger está habilitado en el entorno `Development`.
+
 Buscar el producto de prueba:
 
 ```bash
 curl http://localhost:8080/v1/products/11111111-1111-1111-1111-111111111111
+```
+
+Listar productos con paginación y búsqueda opcional por nombre o descripción:
+
+```bash
+curl "http://localhost:8080/v1/products?skip=0&take=10&search=producto"
 ```
 
 Ajustar el stock: una `cantidad` positiva suma unidades y una negativa las resta. El stock no puede quedar negativo y cada ajuste se limita a 1.000.000 de unidades.
@@ -79,3 +87,5 @@ dotnet run --project MyCatalog.API/MyCatalog.API.csproj --launch-profile https
 ```
 
 La API queda disponible en `https://localhost:7089`. Para probarla, usar los mismos `curl` de arriba y reemplazar `http://localhost:8080` por `https://localhost:7089`.
+
+Swagger UI también está disponible en `https://localhost:7089/swagger`.
