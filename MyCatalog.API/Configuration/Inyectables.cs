@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using MyCatalog.Application.Behaviors;
 using MyCatalog.Application.Features.Producto;
 using MyCatalog.Application.Interfaces;
 using MyCatalog.Base.Exceptions;
@@ -17,7 +19,12 @@ public static class Inyectables
         IConfiguration configuration)
     {
         var assembly = typeof(IAssemblyRef).Assembly;
-        services.AddMediatR(c => c.RegisterServicesFromAssembly(assembly));
+        services.AddValidatorsFromAssembly(assembly);
+        services.AddMediatR(c =>
+        {
+            c.RegisterServicesFromAssembly(assembly);
+            c.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
 
         services.AddTransient<IErrorHandler, ErrorHandler>();
         services.AddScoped(provider => InfoUsuario.CrearAnonimo());

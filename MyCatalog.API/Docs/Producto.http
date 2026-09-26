@@ -1,21 +1,40 @@
 
 ## Con Docker: http://localhost:8080
-## Con .NET Debug: https://localhost:7089
+## Con .NET Debug (Profile https): https://localhost:7089
 @BaseAddress = http://localhost:8080
 
-###
+### Obtener un producto por ID
 
 GET {{BaseAddress}}/v1/products/11111111-1111-1111-1111-111111111111
 Accept: application/json
 
-###
+### Intentar crear producto (Error de validación)
 
 POST {{BaseAddress}}/v1/products
 Accept: application/json
 Content-Type: application/json
 
 {
-   "nombre": "Producto 1",
-   "descripcion": "Descripción del producto 1",
-   "precio": 100.00
+   "nombre": "XX",
+   "descripcion": "XX",
+   "precio": 0,
+   "stockInicial": 10
 }
+
+### Crear un producto correctamente
+
+POST {{BaseAddress}}/v1/products
+Accept: application/json
+Content-Type: application/json
+
+{
+   "nombre": "Monitor Samsung 24",
+   "descripcion": "Monitor de 24 pulgadas, Full HD y tecnología LED.",
+   "precio": 50000,
+   "stockInicial": 10
+}
+
+### Confirmar que el producto fue creado correctamente
+
+GET {{BaseAddress}}/v1/products/c3617987-8984-40af-9ec5-cf11982d97f7
+Accept: application/json

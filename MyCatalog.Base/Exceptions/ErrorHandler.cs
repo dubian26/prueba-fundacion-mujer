@@ -11,16 +11,19 @@ public class ErrorHandler(ILogger<ErrorHandler> logger) : IErrorHandler
       string traceId = Guid.NewGuid().ToString();
       logger.LogDebug("Error interno: {TraceId}", traceId);
 
-      if (ex is CustomException customEx) {
+      if (ex is CustomException customEx)
+      {
          logger.LogWarning(
             exception: customEx,
             message: customEx.Message);
 
-         return new() {
+         return new()
+         {
             Type = "Custom",
             TraceId = traceId,
             Code = $"{customEx.DeclaringType}.{customEx.MethodName}",
-            Message = customEx.Message
+            Message = customEx.Message,
+            Details = customEx.Details
          };
       }
 
@@ -28,7 +31,8 @@ public class ErrorHandler(ILogger<ErrorHandler> logger) : IErrorHandler
          exception: ex,
          message: "Error interno: {TraceId}", traceId);
 
-      return new() {
+      return new()
+      {
          Type = "NoControl",
          TraceId = traceId,
          Code = "ExBase.NoControl",

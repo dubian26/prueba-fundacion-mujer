@@ -8,6 +8,7 @@
 
   <ItemGroup>
 	<PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <ProjectReference Include="..\MyCatalog.Domain\MyCatalog.Domain.csproj" />
   </ItemGroup>
 

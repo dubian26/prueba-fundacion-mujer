@@ -2,6 +2,18 @@
 
 Prueba técnica para aplicar al cargo de Desarrollador Backend en Fundación de la Mujer.
 
+## Arquitectura
+
+La solución usa una variante de Clean Architecture. El flujo de una petición es:
+
+**Endpoint → Query/Command → MediatR → `ValidationBehavior` → Handler → `IUnitOfWork`/repositorio → infraestructura de datos.**
+
+- Las **Queries y Commands** representan casos de uso y MediatR los envía a su Handler.
+- `ValidationBehavior` ejecuta los validators de FluentValidation antes del Handler. Los errores de entrada se convierten en `CustomException`.
+- El **Handler orquesta** el caso de uso y usa `IUnitOfWork` para acceder a los repositorios y confirmar cambios.
+- Las **entidades del dominio** concentran las reglas de negocio; pueden lanzar `CustomException` cuando los datos incumplen esas reglas.
+- **Infrastructure** implementa el acceso a PostgreSQL con Entity Framework Core. `ErrorMiddleware` y `ErrorHandler` procesan globalmente las excepciones y preparan la respuesta de error.
+
 ## Ejecutar y probar
 
 ### Opción recomendada: Docker

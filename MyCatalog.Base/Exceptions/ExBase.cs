@@ -1,4 +1,5 @@
 using System.Reflection;
+using MyCatalog.Base.Models;
 
 namespace MyCatalog.Base.Exceptions;
 
@@ -23,4 +24,11 @@ public static class ExBase
       new(
          methodInfo: MethodBase.GetCurrentMethod()!,
          message: $"{entidad} con id {id} ya existe en la base de datos.");
+
+   public static CustomException ErrorDatosEntrada(
+      string message, IEnumerable<ErrorDetail> details) =>
+      new(
+         methodInfo: MethodBase.GetCurrentMethod()!,
+         message: message,
+         details: details);
 }
